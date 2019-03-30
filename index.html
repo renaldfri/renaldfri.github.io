@@ -1,0 +1,97 @@
+<html>
+  <head>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"
+    />
+    <style>
+      .printed-page {
+        border: 1px solid #000;
+        height: 600px;
+        width: 1050px;
+        margin-bottom: 126px;
+      }
+
+      .row {
+        padding: 10px;
+        border: 1px solid #000;
+        height: 128px;
+        width: 328px;
+        float: left;
+        text-align: center;
+        vertical-align: middle;
+      }
+
+      .print-area {
+        position: absolute;
+        left: 10px;
+        top: 630px;
+        height: 80px;
+        font-weight: bolder;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div id="app">
+            <div class="print-area">
+                    <textarea id="textArea"></textarea>
+                      </br>
+                    <button v-on:click="parseData()">PRINT</button>
+                  </div>
+                    <div class="printed-page" v-for="page in addresses">
+        <div class="row" v-for="row in page">
+          <div class="line" v-for="item in row">
+            {{ item }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+      new Vue({
+        el: "#app",
+        methods: {
+            parseData: function(){
+                const rawString = document.getElementById("textArea").value;
+
+                stringParsed = rawString.split("\n");
+
+                this.addresses = [];
+                var dataPages = [];
+                var incDataInPage = 0;
+                var addr = [];
+                var lastItem = "";
+                stringParsed.forEach(item => {
+                    if(item == "") {
+                        if(lastItem == ""){
+                        } else {
+                            console.log(addr);
+                            dataPages.push(addr);
+                            addr = [];
+                            incDataInPage++;
+                            if(incDataInPage == 12){
+                                this.addresses.push(dataPages);
+                                dataPages = [];
+                                incDataInPage = 0;
+                            }
+                        }
+                    } else{
+                        addr.push(item.trim())
+                    }
+                    lastItem = item;
+                });
+
+                if (dataPages.length > 0){
+                    this.addresses.push(dataPages)
+                }
+                console.log(this.addresses);
+            }
+        },
+        data: {
+          addresses: []
+        }
+      });
+    </script>
+  </body>
+</html>
