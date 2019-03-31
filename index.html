@@ -5,18 +5,34 @@
       content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"
     />
     <style>
+      body{
+        font-size: 18pt;          
+      }
+
       .printed-page {
         border: 1px solid #000;
-        height: 600px;
-        width: 1050px;
-        margin-bottom: 126px;
+        height: 1380px;
+        width: 1060px;
+        clear: both;
+        margin-bottom:116px; 
+      }
+
+      .spacer {
+        /* border: 1px solid #000; */
+        clear: both;
+        height: 10px;
+      }
+
+      .divider {
+        /* border: 1px solid #000; */
+        clear: both;
       }
 
       .row {
         padding: 10px;
         border: 1px solid #000;
-        height: 128px;
-        width: 328px;
+        height: 208px;
+        width: 508px;
         float: left;
         text-align: center;
         vertical-align: middle;
@@ -24,8 +40,8 @@
 
       .print-area {
         position: absolute;
-        left: 10px;
-        top: 630px;
+        top: 1400px;
+        left: 0px;
         height: 80px;
         font-weight: bolder;
       }
@@ -34,18 +50,22 @@
   </head>
   <body>
     <div id="app">
-            <div class="print-area">
-                    <textarea id="textArea"></textarea>
-                      </br>
-                    <button v-on:click="parseData()">PRINT</button>
-                  </div>
-                    <div class="printed-page" v-for="page in addresses">
-        <div class="row" v-for="row in page">
-          <div class="line" v-for="item in row">
-            {{ item }}
-          </div>
+        <div class="print-area">
+            <textarea id="textArea"></textarea>
+                </br>
+            <button v-on:click="parseData()">PRINT</button>
         </div>
-      </div>
+        <div v-for="page in addresses">
+            <div class="spacer"></div>
+            <div class="printed-page">
+                <div class="row" v-for="row in page">
+                    <div class="line" v-for="item in row">
+                        {{ item }}
+                    </div>
+                </div>
+                <div class="divider"></div>
+            </div>
+        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script>
@@ -54,7 +74,6 @@
         methods: {
             parseData: function(){
                 const rawString = document.getElementById("textArea").value;
-
                 stringParsed = rawString.split("\n");
 
                 this.addresses = [];
@@ -95,3 +114,4 @@
     </script>
   </body>
 </html>
+
